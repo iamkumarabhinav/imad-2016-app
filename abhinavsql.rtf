@@ -1,0 +1,263 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Msftedit 5.41.21.2512;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\f0\fs22 CREATE TABLE User180 (\par
+    UserId NUMBER primary KEY,\par
+    UserName varchar(255),\par
+    Pwd varchar(255),\par
+    userRole varchar(255)\par
+);\par
+INSERT INTO User180 (UserId, UserName,Pwd,userRole)  \par
+VALUES (201,'abhinav','abhink','student');\par
+INSERT INTO User180 (UserId, UserName,Pwd,userRole)  \par
+VALUES (202,'mayank','maya','student');\par
+INSERT INTO User180 (UserId, UserName,Pwd,userRole)  \par
+VALUES (203,'ankit','anki','student');\par
+INSERT INTO User180 (UserId, UserName,Pwd,userRole)  \par
+VALUES (301,'arnav','arnav','teacher');\par
+INSERT INTO User180 (UserId, UserName,Pwd,userRole)  \par
+VALUES (302,'abhishek','abhi','teacher');\par
+INSERT INTO User180 (UserId, UserName,Pwd,userRole)  \par
+VALUES (303,'panda','panda','teacher');\par
+\par
+\par
+Create Table Course180(\par
+CId number PRIMARY KEY,\par
+CName varchar2(255),\par
+CDuration number);\par
+\par
+INSERT INTO Course180 (cId, cName,cduration)  \par
+VALUES (601,'java',12);\par
+INSERT INTO Course180 (cId, cName,cduration)  \par
+VALUES (602,'mainframe',13);\par
+INSERT INTO Course180 (cId, cName,cduration)  \par
+VALUES (603,'dotnet',11);\par
+INSERT INTO Course180 (cId, cName,cduration)  \par
+VALUES (604,'sql',10);\par
+\par
+\par
+CREATE TABLE Student180(\par
+   roll number References User180(UserId) PRIMARY KEY,\par
+   Email varchar(255),\par
+    Mobile varchar(255)\par
+);\par
+INSERT INTO Student180 (roll,email,mobile)  \par
+VALUES (201,'abk@gmail.com','7749996144');\par
+INSERT INTO Student180 (roll,email,mobile)  \par
+VALUES (202,'maya@gmail.com','7749996145');\par
+INSERT INTO Student180 (roll,email,mobile)  \par
+VALUES (203,'ankit@gmail.com','7749996146');\par
+\par
+\par
+\par
+create table Instructor180(\par
+  InstuctorId number REFERENCEs User180(UserId) PRIMARY KEY,\par
+  Salary number,\par
+   cid number REFERENCES Course180(Cid)\par
+);\par
+\par
+INSERT INTO Instructor180 (InstuctorId,salary,cid)  \par
+VALUES (301,4000,601);\par
+INSERT INTO Instructor180 (InstuctorId,salary,cid)  \par
+VALUES (302,5000,602);\par
+INSERT INTO Instructor180 (InstuctorId,salary,cid)  \par
+VALUES (303,6000,604);\par
+\par
+\par
+\par
+create table enroll180(\par
+  roll number References Student180(roll),\par
+  cid number REFERENCES Course180(Cid),\par
+  marks number,\par
+  joindate date,\par
+  CONSTRAINT pk_enro PRIMARY KEY (roll,cid)\par
+   );\par
+   \par
+INSERT INTO enroll180 (roll, cid,marks,joindate)  \par
+VALUES (201,601,100,'22-jan-2012');\par
+INSERT INTO enroll180 (roll, cid,marks,joindate)  \par
+VALUES (202,602,100,'22-jan-2013');\par
+INSERT INTO enroll180 (roll, cid,marks,joindate)  \par
+VALUES (203,604,100,'22-jan-2014');\par
+      \par
+   \par
+CREATE TABLE Question380 (\par
+    Qno NUMBER ,\par
+    Question varchar(255),\par
+    Opt1 varchar(255) ,\par
+    Opt2 varchar(255) ,\par
+    Opt3 varchar(255) ,\par
+    Opt4 varchar(255) ,\par
+    Answer NUMBER,\par
+    Marks number,\par
+cid number REFERENCES Course180(Cid),\par
+CONSTRAINT pk_q PRIMARY KEY (Qno,cid)\par
+);\par
+\par
+INSERT INTO Question380 (qno,Question,opt1,opt2,opt3,opt4,Answer,Marks,cid)  \par
+VALUES (1,'What is the default value of Boolean variable','true','false','null','not defined',1,4,601);\par
+INSERT INTO Question380 (qno,Question,opt1,opt2,opt3,opt4,Answer,Marks,cid)  \par
+VALUES (2,'What is the default value of Object variable?','undefined','0','null','not defined',3,4,601);\par
+INSERT INTO Question380 (qno,Question,opt1,opt2,opt3,opt4,Answer,Marks,cid)  \par
+VALUES (3,' What is the default value of float variable?','0.0d','0.0f','0','not defined',2,4,601);\par
+INSERT INTO Question380 (qno,Question,opt1,opt2,opt3,opt4,Answer,Marks,cid)  \par
+VALUES (4,'Which of the following is a thread safe?','StringBuilder','StringBuffer','both','none',2,4,601);\par
+\par
+\par
+\par
+-------------------\par
+\par
+CREATE OR REPLACE PROCEDURE INSERT_USER180(UserId IN NUMBER,UserName in VARCHAR,Pwd in VARCHAR,userRole in VARCHAR)as\par
+begin\par
+INSERT INTO User180 (UserId, UserName,Pwd,userRole)  \par
+VALUES (UserId,UserName,Pwd,userRole);\par
+end INSERT_USER180;\par
+\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE INSERT_Course180(CId IN NUMBER,CName in VARCHAR2,CDuration in NUMBER)as\par
+begin\par
+INSERT INTO Course180 (cId, cName,cduration)  \par
+VALUES (CId,CName,CDuration);\par
+end INSERT_Course180;\par
+\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE INSERT_Student180(roll IN NUMBER,Email in VARCHAR,Mobile in VARCHAR)as\par
+begin\par
+INSERT INTO Student180 (roll,email,mobile)  \par
+VALUES (roll,Email,Mobile);\par
+end INSERT_Student180;\par
+\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE INSERT_Instructor180(InstuctorId IN NUMBER,Salary IN NUMBER,cid in NUMBER)as\par
+begin\par
+INSERT INTO Instructor180 (InstuctorId,salary,cid)  \par
+VALUES (InstuctorId,Salary,cid);\par
+end INSERT_Instructor180;\par
+\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE INSERT_enroll180(roll IN NUMBER,cid in NUMBER,marks in NUMBER,joindate in date)as\par
+begin\par
+INSERT INTO enroll180 (roll, cid,marks,joindate)  \par
+VALUES (roll,cid,marks,joindate);\par
+end INSERT_enroll180;\par
+\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE INSERT_Question380(Qno IN NUMBER,Question in varchar,Opt1 in varchar,Opt2 in varchar,Opt3 in varchar,Opt4 in varchar,answer in number,marks in NUMBER,cid in NUMBER)as\par
+begin\par
+INSERT INTO Question380 (qno,Question,opt1,opt2,opt3,opt4,Answer,Marks,cid)  \par
+VALUES (qno,Question,opt1,opt2,opt3,opt4,Answer,Marks,cid);\par
+end INSERT_Question380;\par
+\par
+\par
+execute INSERT_USER180(204,'aman','aman','student');\par
+select *from User180;\par
+\par
+execute INSERT_Course180(603,'angular js',12);\par
+select *from Course180;\par
+\par
+\par
+execute INSERT_Student180(204,'aman@gmail.com','7749996154');\par
+select *from Student180;\par
+\par
+execute INSERT_Instructor180(304,5065,603);\par
+select *from Instructor180;\par
+drop table doctor_201234;\par
+\par
+execute INSERT_enroll180(204,603,100,'22-mar-2017');\par
+select *from enroll180;\par
+\par
+execute INSERT_Question380(5,'who is this?','a','b','c','d',2,4,601);\par
+select *from Question380;\par
+\par
+\par
+\par
+\par
+\par
+-------------------------------------------\par
+\par
+CREATE OR REPLACE PROCEDURE DELETE_Question380(Q IN NUMBER)as\par
+begin\par
+DELETE FROM Question380 WHERE Qno=Q;\par
+end DELETE_Question380;\par
+\par
+CREATE OR REPLACE PROCEDURE DELETE_enroll180(r IN NUMBER,c IN NUMBER)as\par
+begin\par
+DELETE FROM enroll180 WHERE roll=r and cid=c;\par
+end DELETE_enroll180;\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE DELETE_User180(U IN NUMBER)as\par
+begin\par
+DELETE FROM User180 WHERE UserId=U;\par
+end DELETE_User180;\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE DELETE_Course180(C IN NUMBER)as\par
+begin\par
+DELETE FROM Course180 WHERE cId=C;\par
+end DELETE_Course180;\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE DELETE_Student180(r IN NUMBER)as\par
+begin\par
+DELETE FROM USER180 WHERE userid=r;\par
+DELETE FROM Student180 WHERE roll=r;\par
+end DELETE_Student180;\par
+\par
+execute DELETE_Student180(204);\par
+select *from Student180;\par
+\par
+\par
+\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE DELETE_Instructor180(I IN NUMBER)as\par
+begin\par
+DELETE FROM Instructor180 WHERE InstuctorId=I;\par
+end DELETE_Instructor180;\par
+\par
+\par
+\par
+\par
+\par
+\par
+execute DELETE_Question380(5);\par
+select *from Question380;\par
+\par
+select *from enroll180;\par
+execute DELETE_enroll180(204,603);\par
+\par
+select *from Instructor180;\par
+execute DELETE_Instructor180(304);\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+-----------------------------------------------------\par
+\par
+CREATE OR REPLACE PROCEDURE UPDATE_User180(UserId IN NUMBER,UserName in VARCHAR,Pwd in VARCHAR,userRole in VARCHAR)as\par
+begin\par
+update User180 set UserId=UserId,UserName=UserName,Pwd=Pwd,userRole=userRole where USERID=USERID;\par
+end UPDATE_User180;\par
+\par
+\par
+CREATE OR REPLACE PROCEDURE UPDATE_Course180(CId IN NUMBER,CName in varchar2,CDuration in number)as\par
+begin\par
+update Course180 set CId=CId,CName=CName,CDuration=CDuration where CId=CId;\par
+end UPDATE_Course180;\par
+\par
+   CREATE OR REPLACE PROCEDURE UPDATE_Question180(qno IN NUMBER,Question in varchar,opt1 in varchar,opt2 in varchar,opt3 in varchar,opt4 in varchar,Answer IN NUMBER,Marks IN NUMBER,cid IN NUMBER)as\par
+begin\par
+update Question180 set qno=qno,Question=Question,opt1=opt1,opt2=opt2,opt3=opt3,opt4=opt4,Answer=Answer,Marks=Marks,cid=cid  where qno=qno;\par
+end UPDATE_Question180;\par
+\par
+\par
+}
+ 
